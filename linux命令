@@ -1,0 +1,122 @@
+创建新用户：
+ sudo useradd cml -m
+
+ ls /home/ 列出home文件夹下的所有
+
+ cat /etc/passwd 进入改文件夹下
+
+ sudo passwd cml 创建改用户密码
+
+Usermod -a -G sudo -s /bin/bash cml 添加group权限
+
+id cml 查看当前用户权限
+
+切换用户
+ su cml
+
+添加root权限：
+Sudo vi /etc/sudoers
+然后添加 cml ALL=(ALL) ALL
+
+格式化硬盘：sudo mkfs.ext4  /dev/sdb
+查看所有磁盘容量： sudo fdisk -l |grep Disk
+查看当前的磁盘使用：df -h
+
+磁盘挂载
+	1. sudo fdisk -l 查看磁盘信息；
+	2. sudo blkid 查看分区id；
+	3. 编辑系统挂载配置文件/etc/fstab: sudo vim /etc/fstab
+
+重启电脑：shutdown -r now
+
+给某个文件夹赋予某个用户权限
+ chown -R chenmingliang DATA
+rm -rf 文件夹名
+强制删除文件夹
+
+Vim 命令使用
+  vim /etc/sudoers 查看当前文件：
+ 编辑：按键盘instert
+退出：先按：，再输入q
+w!强制保存
+
+Dokcer控制命令
+1）nvidia-docker images 查看镜像
+	2) Docker run  --gpus '"device=1,2"' 镜像名 nvidia-smi              创建并指派gpu给container
+	3) Docker run --name mytf -it -v /data1:/data2 镜像名 bash 启动容器，并起名
+docker的一些控制
+	启动和创建：Docker run
+	开始：docker start
+	
+	Docker ps -a 查看所有的容器
+	Docker ps -a -q查看所有停止状态的容器
+	Docker ps查看运行中
+
+包安装
+Dpkg -I + 文件名
+
+Cp cudnn.sollll cudnn.tgz文件类型转换，其中cp是复制的意思
+
+Tar -xvf cudnn.tgz 解压tgz文件
+
+文件夹访问：
+要用//而不是\\(windows下）
+top显示进程
+
+du -hs cml查看文件夹占多少内存,显示当前目录
+Du -h cml 查看目录下的文件占据内存
+
+
+dgx服务器配置
+1）多用户账号密码生成；
+2）多用户权限配置到docker组下；
+3）多用户的数据共享盘路径控制；
+4）多用户的镜像下载；
+cuda10.2+pytorch1.5+torchvision0.6+opencv3.4+numpy1.16+pydicom2.0 王小状
+cuda10.1+python3.6+pytorch(1.4.0) 赵冬冬
+Cuda10 + pytorch1.6 杨洋
+tensorflow 1.4 keras 2.2 cuda 8.0 马春晓
+
+docker run --name Lung_nodule -it --gpus '"device=0"' -v /raid/ShareFiles:/Files pytorch/pytorch:1.6.0-cuda10.1-cudnn7-runtime bash
+
+文件移动
+
+ mv 文件名 另一个目录 
+
+linux进程kill
+Kill -9 pid强制删除某进程，pid是进程号，可通过ps -ef查看
+Pkill -u chenmingliang强制kill某用户所有进程
+
+find命令
+find ./home/ -maxdepth 1 -name ".mat"
+解释：找出home文件夹下，一级目录内的所有后缀名为mat的文件
+
+xargs命令：是给命令 传递参数的一个过滤器，可以将前一个命令的输出作为后一个命令的参数
+find . -maxdepth 1 -name '*' |xargs mv ./g_map_1_8_scale
+
+新用户创建的步骤：
+Useradd cml -m
+Passswd cml
+Usermod -a -G docker cml
+Usermod -s /bin/bash cml 添加bash作为当前的shell（shell即用户和操作系统的桥梁，bash类似于算法，命令）
+
+创建新组
+Groupadd lung_nodule
+赋权限给指定用户组
+chgrp -R 用户组 文件
+修改某个文件夹的权限--例如可以被用户，用户组，其他人的使用权限
+chmod -R 775 文件夹
+Chmod g+x 文件夹 子目录继承父目录的用户组
+
+Chmod a+r 设置权限
+useradd -G {group-name} username 添加新用户到用户组中
+Usermod -a -G添加老用户到用户组中
+
+linux下脚本命令创建
+先生成txt文件，例如user.txt
+再通过touch test.sh创建bash文件
+Test.sh文件必须以#!/bin/bash开头
+然后，使用chmod +x test.sh
+最后用./test.sh运行bash命令
+
+Scp -2
