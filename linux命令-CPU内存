@@ -1,0 +1,7 @@
+查看CPU的内存：free -m（或者-h)
+缓存清除：（buff/cache过大时）
+	echo 1 > /proc/sys/vm/drop_caches
+	echo 2 > /proc/sys/vm/drop_caches
+	echo 3 > /proc/sys/vm/drop_caches
+	
+	
